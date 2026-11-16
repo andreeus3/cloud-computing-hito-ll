@@ -1,0 +1,29 @@
+services:
+  postgres-bus:
+    image: postgres:17
+    container_name: postgres-bus
+    environment:
+      POSTGRES_DB: bus_db
+      POSTGRES_USER: bus_user
+      POSTGRES_PASSWORD: bus_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_bus_data:/var/lib/postgresql/data
+
+  user-db:
+      image: postgres:17
+      container_name: user-db
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: user_db
+        POSTGRES_USER: user_admin
+        POSTGRES_PASSWORD: user_password
+      ports:
+        - "5434:5432"
+      volumes:
+        - user_db_data:/var/lib/postgresql/data
+
+volumes:
+  user_db_data:
+  postgres_bus_data:
