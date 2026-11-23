@@ -53,7 +53,6 @@ public class JwtService {
         try {
 
             String tokenUsername = extractUsername(token);
-            System.out.println("TOKEN "+token);
             return tokenUsername.equals(username);
 
         } catch (io.jsonwebtoken.JwtException | IllegalArgumentException e) {
