@@ -21,7 +21,6 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping("/allUsers")
     public ResponseEntity<List<UserDto>> findAllUsers(){
         return ResponseEntity.ok(userService.findAllUsers());
@@ -59,10 +58,12 @@ public class UserController {
 
 
     @DeleteMapping("/delete-user/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
-
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(
+                HttpStatus.NO_CONTENT)
+                .body("Eliminado correctamente"
+                );
     }
 
 

@@ -26,7 +26,9 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto addUser(CreateUserDto addUser) {
-        if (userDao.existsByEmail(addUser.getEmail())) {
+
+        Optional<User> optionalUser = userDao.findByEmail(addUser.getEmail());
+        if (optionalUser.isPresent()) {
             throw new RuntimeException("Email already Exists");
         }
         User user = new User();
@@ -54,6 +56,7 @@ public class UserServiceImpl implements UserService{
             getAllUserDto.add(userMapper.toDto(user));
         }
 
+        System.out.println("LLEGA CON USUARIOS: "+ getAllUserDto);
         return getAllUserDto;
     }
 
@@ -88,6 +91,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(Long id) {
+        System.out.println("ID"+ id);
         userDao.deleteById(id);
     }
 }

@@ -10,5 +10,4 @@ public interface BusMapper {
 
     VehicleBus toEntity(BusDto busDTO);
 
-    void updateEntity(User user, UpdateUserDto updateUserDto);
 }

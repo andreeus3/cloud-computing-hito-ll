@@ -36,5 +36,6 @@ public class UserMapper {
         user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setPhone(dto.getPhone());
+        user.setActive(dto.getActive());
     }
 }

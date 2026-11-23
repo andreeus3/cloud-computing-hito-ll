@@ -11,7 +11,6 @@ public class CreateUserDto {
 
     private String name;
     private String email;
-    private String username;
     private String password;
     private String phone;
     private Boolean active = false;
