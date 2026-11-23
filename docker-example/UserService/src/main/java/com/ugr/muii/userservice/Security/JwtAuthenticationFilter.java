@@ -35,7 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
         if(header!= null && header.startsWith("Bearer")){
             String jwt = header.substring(7);
-            System.out.println("JWT "+jwt);
             try {
                 String username = jwtService.extractUsername(jwt);
 
@@ -60,7 +59,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     }
                 }
             }catch (JwtException | org.springframework.security.core.userdetails.UsernameNotFoundException e){
-                System.out.println("ERROR JWT: " + e.getMessage());
                 SecurityContextHolder.clearContext();
             }
 

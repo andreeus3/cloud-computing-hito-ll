@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService{
             getAllUserDto.add(userMapper.toDto(user));
         }
 
-        System.out.println("LLEGA CON USUARIOS: "+ getAllUserDto);
         return getAllUserDto;
     }
 
@@ -91,7 +90,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void deleteUser(Long id) {
-        System.out.println("ID"+ id);
         userDao.deleteById(id);
     }
 }
