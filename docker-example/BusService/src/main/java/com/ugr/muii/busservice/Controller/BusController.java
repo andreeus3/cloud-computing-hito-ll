@@ -24,7 +24,7 @@ public class BusController {
         return ResponseEntity.ok(busService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     public ResponseEntity<BusDto> findById(@PathVariable("id") Long id){
         Optional<BusDto> userDTOOptional = busService.findById(id);
         return userDTOOptional.map(ResponseEntity::ok)
