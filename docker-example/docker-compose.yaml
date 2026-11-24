@@ -6,12 +6,12 @@ services:
       POSTGRES_DB: bus_db
       POSTGRES_USER: bus_user
       POSTGRES_PASSWORD: bus_password
-      JWT_SECRET: ${JWT_SECRET}
-      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
     ports:
       - "5433:5432"
     volumes:
       - postgres_bus_data:/var/lib/postgresql/data
+    networks:
+      - network-volume-data
 
   user-db:
       image: postgres:17
@@ -22,9 +22,69 @@ services:
         POSTGRES_USER: user_admin
         POSTGRES_PASSWORD: user_password
       ports:
-        - "5434:5432"
+        - "5435:5432"
       volumes:
         - user_db_data:/var/lib/postgresql/data
+      networks:
+        - network-volume-data
+
+
+  bus-service:
+    build:
+      context: ./BusService
+      dockerfile: ./Dockerfile
+    container_name: myapp_bus_service
+    restart: "no"
+    ports:
+      - "8081:8081"
+    environment:
+      PORT_BUS: 8081
+      DB_HOST_BUS: postgres-bus
+      DB_PORT_BUS: 5432
+      DB_NAME_BUS: bus_db
+      DB_PASSWORD_BUS: bus_password
+      DB_USER_BUS: bus_user
+
+    depends_on:
+      - postgres-bus
+    networks:
+      - network-volume-data
+      - public-network
+
+  user-service:
+    build:
+      context: ./UserService
+      dockerfile: ./Dockerfile
+    container_name: myapp_user_service
+    restart: "no"
+    ports:
+      - "8091:8091"
+    environment:
+      PORT_USER: 8091
+      DB_HOST_USER: user-db
+      DB_PORT_USER: 5432
+      DB_NAME_USER: user_db
+      DB_PASSWORD_USER: user_password
+      DB_USER_USER: user_admin
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
+
+    depends_on:
+      - user-db
+
+    networks:
+      - network-volume-data
+      - public-network
+
+
+networks:
+  #Red privada para las bases de datos.
+  network-volume-data:
+    internal: true
+
+  #Red publica donde se comparten los servicios.
+  public-network:
+
 
 volumes:
   user_db_data:
