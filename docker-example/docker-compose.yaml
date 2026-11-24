@@ -3,11 +3,11 @@ services:
     image: postgres:17
     container_name: postgres-bus
     environment:
-      POSTGRES_DB: bus_db
-      POSTGRES_USER: bus_user
-      POSTGRES_PASSWORD: bus_password
+      POSTGRES_DB: ${POSTGRES_DB_BUS}
+      POSTGRES_USER: ${POSTGRES_BUS}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_BUS}
     ports:
-      - "5433:5432"
+        - "127.0.0.1:${PORTS_BUS:-5433}:5432"
     volumes:
       - postgres_bus_data:/var/lib/postgresql/data
     networks:
@@ -18,11 +18,11 @@ services:
       container_name: user-db
       restart: unless-stopped
       environment:
-        POSTGRES_DB: user_db
-        POSTGRES_USER: user_admin
-        POSTGRES_PASSWORD: user_password
+        POSTGRES_DB: ${POSTGRES_DB_USER}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD_USER}
       ports:
-        - "5435:5432"
+        - "127.0.0.1:${PORTS_USER:-5435}:5432"
       volumes:
         - user_db_data:/var/lib/postgresql/data
       networks:
@@ -36,14 +36,14 @@ services:
     container_name: myapp_bus_service
     restart: "no"
     ports:
-      - "8081:8081"
+      - "${PORTS_PUBLISH_BUS:-8081}:8081"
     environment:
-      PORT_BUS: 8081
-      DB_HOST_BUS: postgres-bus
-      DB_PORT_BUS: 5432
-      DB_NAME_BUS: bus_db
-      DB_PASSWORD_BUS: bus_password
-      DB_USER_BUS: bus_user
+      PORT_BUS: ${PORT_BUS}
+      DB_HOST_BUS: ${DB_HOST_BUS}
+      DB_PORT_BUS: ${DB_PORT_BUS}
+      DB_NAME_BUS: ${DB_NAME_BUS}
+      DB_PASSWORD_BUS: ${DB_PASSWORD_BUS}
+      DB_USER_BUS: ${DB_USER_BUS}
 
     depends_on:
       - postgres-bus
@@ -58,14 +58,14 @@ services:
     container_name: myapp_user_service
     restart: "no"
     ports:
-      - "8091:8091"
+      - "${PORTS_PUBLISH_USER:-8091}:8091"
     environment:
-      PORT_USER: 8091
-      DB_HOST_USER: user-db
-      DB_PORT_USER: 5432
-      DB_NAME_USER: user_db
-      DB_PASSWORD_USER: user_password
-      DB_USER_USER: user_admin
+      PORT_USER: ${PORT_USER}
+      DB_HOST_USER: ${DB_HOST_USER}
+      DB_PORT_USER: ${DB_PORT_USER}
+      DB_NAME_USER: ${DB_NAME_USER}
+      DB_PASSWORD_USER: ${DB_PASSWORD_USER}
+      DB_USER_USER: ${DB_USER_USER}
       JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
 
@@ -80,10 +80,12 @@ services:
 networks:
   #Red privada para las bases de datos.
   network-volume-data:
+    driver: bridge
     internal: true
 
   #Red publica donde se comparten los servicios.
   public-network:
+    driver: bridge
 
 
 volumes:
