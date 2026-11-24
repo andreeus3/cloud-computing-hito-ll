@@ -33,7 +33,7 @@ jobs:
           distribution: temurin
           java-version: '21'
           cache: maven
-          cache-dependency-path: BusService/pom.xml
+          cache-dependency-path: docker-example/BusService/pom.xml
 
       - name: Run unit tests
         run: mvn -B test
