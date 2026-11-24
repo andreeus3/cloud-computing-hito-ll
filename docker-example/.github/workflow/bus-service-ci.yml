@@ -1,0 +1,35 @@
+name: CI - BusService
+
+on:
+  push:
+    paths:
+      - 'BusService/**'
+      - '.github/workflows/bus-service-ci.yml'
+
+  pull_request:
+    paths:
+      - 'BusService/**'
+      - '.github/workflows/bus-service-ci.yml'
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: BusService
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: BusService/pom.xml
+
+      - name: Run unit tests
+        run: mvn -B test
