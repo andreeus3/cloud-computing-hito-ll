@@ -2,13 +2,17 @@ name: CI - BusService
 
 on:
   push:
+    branches:
+      - '**'
     paths:
-      - 'BusService/**'
+      - 'docker-example/BusService/**'
       - '.github/workflows/bus-service-ci.yml'
 
   pull_request:
+    branches:
+      - '**'
     paths:
-      - 'BusService/**'
+      - 'docker-example/BusService/**'
       - '.github/workflows/bus-service-ci.yml'
 
 jobs:
@@ -17,7 +21,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: BusService
+        working-directory: docker-example/BusService
 
     steps:
       - name: Checkout repository
