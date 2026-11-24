@@ -30,6 +30,7 @@ services:
 
 
   bus-service:
+    image: ghcr.io/andreeus3/bus-service:1.0
     build:
       context: ./BusService
       dockerfile: ./Dockerfile
@@ -52,6 +53,7 @@ services:
       - public-network
 
   user-service:
+    image: ghcr.io/andreeus3/user-service:1.0
     build:
       context: ./UserService
       dockerfile: ./Dockerfile
