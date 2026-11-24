@@ -127,7 +127,7 @@ Este patrón proporciona:
 - Posibilidad de escalado independiente.
 
 
-### 7.5. Códigos de respuesta HTTP
+### 5. Códigos de respuesta HTTP
 
 | Código | Estado | Descripción |
 |---|---|---|
@@ -140,3 +140,34 @@ Este patrón proporciona:
 | 404 | Not Found | Recurso solicitado inexistente. |
 | 409 | Conflict | Conflicto con un recurso existente. |
 | 500 | Internal Server Error | Error interno del microservicio. |
+
+### 6. Configuración de las variables de entorno a partir de env.example
+
+- Crear el archivo .env
+
+Desde la raíz del proyecto, ejecutar:
+
+```bash
+cp .env.example .env
+```
+
+- Para generar una clave segura codificada en Base64, ejecutar:
+
+```bash
+openssl rand -base64 32
+```
+
+- Copiar el resultado y reemplazar el valor de `JWT_SECRET`
+en el archivo `.env`.
+
+
+> [!IMPORTANT]
+> Reemplazar `REPLACE_WITH_BASE64_SECRET` por la clave generada.
+> Modificar las contraseñas de ejemplo antes del despliegue.
+> Las credenciales de PostgreSQL deben coincidir con las
+> configuradas en sus respectivos microservicios.
+
+> [!WARNING]
+> El archivo `.env` contiene información sensible y no debe
+> publicarse en GitHub. Únicamente se debe versionar
+> el archivo `.env.example`.
