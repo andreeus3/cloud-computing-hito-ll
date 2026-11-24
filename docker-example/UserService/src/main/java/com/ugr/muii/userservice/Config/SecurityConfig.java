@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/addUser").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/user/add-user").permitAll()
                         .anyRequest().authenticated()
                 )
 
